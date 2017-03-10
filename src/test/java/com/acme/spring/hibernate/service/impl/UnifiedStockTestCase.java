@@ -151,7 +151,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
       stockService.save(acme);
       stockService.save(redhat);
-	}
+    }
 
     /**
      * Test case: http://beitrag-confluence/VVL/testcases/testcase3
@@ -171,7 +171,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
       stockService.save(acme);
       stockService.save(redhat);
-	}
+    }
 
 
 
