@@ -1,0 +1,8 @@
+<dataset>
+    <Stock id="1" name="Apple" symbol="APPL" value="100.02" date="2016-02-12"/>
+    <Stock id="2" name="Intelligen Business Machines" symbol="IBM" value="120.02" date="2016-02-12"/>
+    <Stock id="3" name="Acme" symbol="ACM" value="123.21" date="2016-02-12"/>
+    <Stock id="4" name="Red Hat" symbol="RHC" value="59.61" date="2016-02-12"/>
+    <Stock id="5" name="XAcme" symbol="XACM" value="123.21" date="2016-02-12"/>
+    <Stock id="6" name="XRed Hat" symbol="XRHC" value="59.61" date="2016-02-12"/>
+</dataset>

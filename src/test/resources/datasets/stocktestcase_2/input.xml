@@ -1,0 +1,5 @@
+<dataset>
+    <!--  the input dataset does not specify the ID so that the database sequence is correctly used -->
+    <Stock name="Apple" symbol="APPL" value="100.02" date="2016-02-12"/>
+    <Stock name="Intelligen Business Machines" symbol="IBM" value="120.02" date="2016-02-12"/>
+</dataset>
