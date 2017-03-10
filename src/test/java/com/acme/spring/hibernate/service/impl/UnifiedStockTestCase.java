@@ -19,25 +19,34 @@ package com.acme.spring.hibernate.service.impl;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.ApplyScriptBefore;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import com.acme.spring.hibernate.Deployments;
+import com.acme.spring.hibernate.PostgresqlHelper;
 import com.acme.spring.hibernate.domain.Stock;
 import com.acme.spring.hibernate.service.StockService;
 
@@ -48,9 +57,19 @@ import com.acme.spring.hibernate.service.StockService;
  */
 @RunWith(Arquillian.class)
 @SpringConfiguration("applicationContext.xml")
-public class UnifiedStockTestCase {
+public class UnifiedStockTestCase implements ApplicationContextAware{
 
-    /**
+	private ApplicationContext ctx;
+    @Override
+	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
+    	this.ctx = ctx;
+    	Arrays.stream( ctx.getBeanDefinitionNames() )
+    	  .forEach( name -> System.out.println( name ) );
+    	System.out.println("APP AWARE");
+	}
+
+
+	/**
      * <p>Creates the test deployment.</p>
      *
      * @return the test deployment
@@ -88,18 +107,23 @@ public class UnifiedStockTestCase {
 
 
     /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
+     * @ApplyScriptBefore is called before @UsingDataSet
+     * @UsingDataSet is called before @Before
      *
      */
-    @Test
-    @UsingDataSet("stocktestcase_1/input.xml")
-    @ShouldMatchDataSet(value = "stocktestcase_1/expected-result.xml", excludeColumns={"date"})
-    public void test_case_1() {
-        Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
-        Stock redhat = createStock("Red Hat", "RHC", 59.61D, new Date());
+    @Before
+    public void before() throws SQLException {
+    	System.out.println("============== before =============== ");
+    	PostgresqlHelper.fixSequences( ds );
+    	System.out.println("============== fixed sequences =============== ");
+    }
 
-//        stockService.save(acme);
-//        stockService.save(redhat);
+    /**
+     * @After is called before @ApplyScriptAfter
+     */
+    @After
+    public void after() {
+    	System.out.println("============== after=============== ");
     }
 
     /**
@@ -107,6 +131,18 @@ public class UnifiedStockTestCase {
      *
      */
     @Test
+    @ApplyScriptBefore("fix_sequences.sql")
+    @UsingDataSet("stocktestcase_1/input.xml")
+    @ShouldMatchDataSet(value = "stocktestcase_1/expected-result.xml", excludeColumns={"date"})
+    public void test_case_1() {
+    	//NOOP test
+    }
+
+    /**
+     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
+     *
+     */
+    @Ignore
     @UsingDataSet("stocktestcase_2/input.xml")
     @ShouldMatchDataSet(value = "stocktestcase_2/expected-result.xml", excludeColumns={"date"})
 	public void test_case_2() {
@@ -162,17 +198,4 @@ public class UnifiedStockTestCase {
         return result;
     }
 
-    /**
-     * <p>Asserts that the actual stock's properties values are correct.</p>
-     *
-     * @param expected   the expected stock object
-     * @param actual     the tested stock object
-     */
-    private static void assertStock(Stock expected, Stock actual) {
-
-        assertEquals("Stock has invalid name property.", expected.getName(), actual.getName());
-        assertEquals("Stock has invalid symbol property.", expected.getSymbol(), actual.getSymbol());
-        assertEquals("Stock has invalid value property.", expected.getValue().doubleValue(),
-                actual.getValue().doubleValue(), 0.01D);
-    }
 }

@@ -57,10 +57,12 @@ public final class Deployments {
 
 
     	WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
+    	  .addClass(PostgresqlHelper.class)
           .addAsResource("applicationContext.xml")
           .addAsResource("create.sql")
           .addAsResource("delete.sql")
           .addAsResource("insert.sql")
+          .addAsResource("fix_sequences.sql")
           .addAsResource("datasets")
           .addAsLibrary(stockServicesJar)
           .addAsLibraries(springDependencies());
