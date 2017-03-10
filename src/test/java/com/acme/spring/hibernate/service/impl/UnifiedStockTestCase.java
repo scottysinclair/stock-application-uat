@@ -139,7 +139,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
     }
 
     /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
+     * Test case: http://beitrag-confluence/VVL/testcases/testcase2
      *
      */
     @Ignore
@@ -158,11 +158,12 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 	}
 
     /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
+     * Test case: http://beitrag-confluence/VVL/testcases/testcase3
      *
+     * THIS TESTCASE USES THE EXPECTED RESULT OF TESTCASE 2 AS THE STARTING POINT
      */
     @Test
-    @UsingDataSet("stocktestcase_3/input.xml")
+    @UsingDataSet("stocktestcase_2/expected-result.xml")
     @ShouldMatchDataSet(value = "stocktestcase_3/expected-result.xml", excludeColumns={"date"})
 	public void test_case_3() {
 
