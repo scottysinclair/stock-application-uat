@@ -131,7 +131,6 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      *
      */
     @Test
-    @ApplyScriptBefore("fix_sequences.sql")
     @UsingDataSet("stocktestcase_1/input.xml")
     @ShouldMatchDataSet(value = "stocktestcase_1/expected-result.xml", excludeColumns={"date"})
     public void test_case_1() {

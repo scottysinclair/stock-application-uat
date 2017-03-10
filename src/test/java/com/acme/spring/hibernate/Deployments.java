@@ -62,7 +62,6 @@ public final class Deployments {
           .addAsResource("create.sql")
           .addAsResource("delete.sql")
           .addAsResource("insert.sql")
-          .addAsResource("fix_sequences.sql")
           .addAsResource("datasets")
           .addAsLibrary(stockServicesJar)
           .addAsLibraries(springDependencies());
