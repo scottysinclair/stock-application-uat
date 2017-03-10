@@ -37,7 +37,6 @@ import org.jboss.arquillian.spring.integration.test.annotation.SpringConfigurati
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
@@ -101,7 +100,6 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      * @return the current session
      */
     public Session getSession() {
-
         return sessionFactory.getCurrentSession();
     }
 
@@ -141,19 +139,18 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      * Test case: http://beitrag-confluence/VVL/testcases/testcase2
      *
      */
-    @Ignore
     @UsingDataSet("stocktestcase_2/input.xml")
     @ShouldMatchDataSet(value = "stocktestcase_2/expected-result.xml", excludeColumns={"date"})
-	public void test_case_2() {
+    public void test_case_2() {
 
-		List<Stock> stocks = stockService.getAll();
-		assertEquals(stocks.size(), 2);
+      List<Stock> stocks = stockService.getAll();
+      assertEquals(stocks.size(), 2);
 
-		Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
-		Stock redhat = createStock("Red Hat", "RHC", 59.61D, new Date());
+      Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
+      Stock redhat = createStock("Red Hat", "RHC", 59.61D, new Date());
 
-		stockService.save(acme);
-		stockService.save(redhat);
+      stockService.save(acme);
+      stockService.save(redhat);
 	}
 
     /**
@@ -164,16 +161,16 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
     @Test
     @UsingDataSet("stocktestcase_2/expected-result.xml")
     @ShouldMatchDataSet(value = "stocktestcase_3/expected-result.xml", excludeColumns={"date"})
-	public void test_case_3() {
+    public void test_case_3() {
 
-		List<Stock> stocks = stockService.getAll();
-		assertEquals(stocks.size(), 4);
+      List<Stock> stocks = stockService.getAll();
+      assertEquals(stocks.size(), 4);
 
-		Stock acme = createStock("XAcme", "XACM", 123.21D, new Date());
-		Stock redhat = createStock("XRed Hat", "XRHC", 59.61D, new Date());
+      Stock acme = createStock("XAcme", "XACM", 123.21D, new Date());
+      Stock redhat = createStock("XRed Hat", "XRHC", 59.61D, new Date());
 
-		stockService.save(acme);
-		stockService.save(redhat);
+      stockService.save(acme);
+      stockService.save(redhat);
 	}
 
 
@@ -189,7 +186,6 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      * @return the created stock instance
      */
     private static Stock createStock(String name, String symbol, double value, Date date) {
-
         Stock result = new Stock();
         result.setName(name);
         result.setSymbol(symbol);
