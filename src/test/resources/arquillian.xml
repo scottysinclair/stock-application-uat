@@ -7,14 +7,14 @@
 
 
 	<extension qualifier="cube">
-		<property name="connectionMode">STARTORCONNECTANDLEAVE</property>
+		<property name="connectionMode">STARTANDSTOP</property>
 	</extension>
 
   <!--  control of the docker compose configuration -->
   <extension qualifier="docker">
       <property name="serverVersion">1.13</property>
       <property name="serverUri">http://localhost:4243</property>
-      <property name="autoStartContainers">web,db</property>
+      <property name="autoStartContainers">web,db,olddb</property>
     <property name="dockerContainers">
       version: "2"
       services:
@@ -22,7 +22,7 @@
           image: eap-test
           hostname: web
           portBindings: [8080->8080/tcp, 9990->9990/tcp, 9999->9999/tcp]
-          depends_on: [db]
+          depends_on: [db,olddb]
         db:
           image: postgres
           hostname: db
@@ -31,6 +31,13 @@
             - POSTGRES_USER=test_user
             - POSTGRES_PASSWORD=password
             - POSTGRES_DB=test_db
+        olddb:
+          image: db2
+          hostname: olddb
+          portBindings: [50000->50000/tcp,22->22/tcp]
+          environment:
+            - DB2INST1_PASSWORD=password
+            - LICENSE=accept
     </property>
 
     <!--  properties related to how arquillian uses the docker container -->
@@ -40,7 +47,13 @@
           strategy: log
           match: regexp:.+JBoss EAP.+ started in .+ms.+
           sleepPollingTime: 10
-          timeout: 50
+          timeout: 60
+      olddb:
+        await:
+          strategy: polling
+          ports: [50000]
+          sleepPollingTime: 10 s
+          iterations: 6
      </property>
   </extension>
 
@@ -61,7 +74,7 @@
 	<container qualifier="web" default="true">
 		<configuration>
         <property name="chameleonTarget">jboss eap:7.0.1:remote</property>
-			<property name="managementAddress">172.18.0.3</property>
+			<property name="managementAddress">172.18.0.4</property>
 			<property name="managementPort">9990</property>
             <property name="username">admin</property>
             <property name="password">admin</property>
@@ -69,7 +82,7 @@
 
         <!--  the protocol used by arquillian to execute the tests on JBOSS -->
 	     <protocol type="Servlet 3.0">
-	        <property name="host">172.18.0.3</property>
+	        <property name="host">172.18.0.4</property>
 	        <property name="port">8080</property>
 	        <!--  contextRoot -->
 	     </protocol>
