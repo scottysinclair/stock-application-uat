@@ -7,14 +7,14 @@
 
 
 	<extension qualifier="cube">
-		<property name="connectionMode">STARTANDSTOP</property>
+		<property name="connectionMode">STARTORCONNECTANDLEAVE</property>
 	</extension>
 
   <!--  control of the docker compose configuration -->
   <extension qualifier="docker">
       <property name="serverVersion">1.13</property>
       <property name="serverUri">http://localhost:4243</property>
-      <property name="autoStartContainers">web,db,olddb</property>
+      <property name="autoStartContainers">web,batch,db,olddb</property>
     <property name="dockerContainers">
       version: "2"
       services:
@@ -23,6 +23,11 @@
           hostname: web
           portBindings: [8080->8080/tcp, 9990->9990/tcp, 9999->9999/tcp]
           depends_on: [db,olddb]
+        batch:
+          build:
+            context: ../stock-application-batch
+            noCache: true
+            remove: true
         db:
           image: postgres
           hostname: db
