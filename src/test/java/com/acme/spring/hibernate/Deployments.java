@@ -58,6 +58,7 @@ public final class Deployments {
 
     	WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
     	  .addClass(PostgresqlHelper.class)
+    	  .addClass(IntegrationHelper.class)
           .addAsResource("applicationContext.xml")
           .addAsResource("create.sql")
           .addAsResource("delete.sql")
@@ -110,6 +111,7 @@ public final class Deployments {
         files.addAll(resolveDependencies("org.hibernate.common:hibernate-commons-annotations:5.0.1.Final-redhat-2"));
         files.addAll(resolveDependencies("org.javassist:javassist:3.18.1.GA-redhat-2"));
         files.addAll(resolveDependencies("org.postgresql:postgresql:42.0.0"));
+        files.addAll(resolveDependencies("com.ibm.db2.jcc:db2jcc4:10.1"));
         files.addAll(resolveDependencies("org.dbunit:dbunit:2.4.9"));
         return files.toArray(new File[files.size()]);
     }

@@ -7,7 +7,7 @@
 
 
 	<extension qualifier="cube">
-		<property name="connectionMode">STARTANDSTOP</property>
+		<property name="connectionMode">STARTORCONNECTANDLEAVE</property>
 	</extension>
 
   <!--  control of the docker compose configuration -->
@@ -23,6 +23,8 @@
           hostname: web
           portBindings: [8080->8080/tcp, 9990->9990/tcp, 9999->9999/tcp]
           depends_on: [db,olddb]
+          environment:
+            - DOCKER_SERVER_URI=http://${server.ip}:4243
         batch:
           build:
             context: ../stock-application-batch
@@ -51,6 +53,12 @@
         await:
           strategy: log
           match: regexp:.+JBoss EAP.+ started in .+ms.+
+          sleepPollingTime: 10
+          timeout: 60
+      batch:
+        await:
+          strategy: log
+          match: batch container up
           sleepPollingTime: 10
           timeout: 60
       olddb:

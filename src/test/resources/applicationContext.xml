@@ -3,10 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+  <!--  the root application context used by the test war -->
 
+   <!--  imports the standard application XMLs  -->
+    <import resource="classpath:stock-application-datasource-jndi.xml"/>
     <import resource="classpath:stock-application-repository.xml"/>
     <import resource="classpath:stock-application-service.xml"/>
 
+   <!--  adds the integration DB2 datasource -->
+      <!-- Settings for external data source, DriverManagerDataSource is used only for test purpose in real situation use pooling datasource like DBCP  -->
+    <bean id="dataSourceInt" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.ibm.db2.jcc.DB2Driver"/>
+        <property name="url" value="jdbc:db2://olddb:50000/test"/>
+        <property name="username" value="db2inst1"/>
+        <property name="password" value="password"/>
+    </bean>
 
 
 </beans>

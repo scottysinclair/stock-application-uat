@@ -41,10 +41,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import com.acme.spring.hibernate.Deployments;
+import com.acme.spring.hibernate.IntegrationHelper;
 import com.acme.spring.hibernate.PostgresqlHelper;
 import com.acme.spring.hibernate.domain.Stock;
 import com.acme.spring.hibernate.service.StockService;
@@ -80,7 +82,12 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
 
     @Autowired
+    @Qualifier("dataSource")
     private DataSource ds;
+
+    @Autowired
+    @Qualifier("dataSourceInt")
+    private DataSource dsInt;
 
     /**
      * <p>Injected {@link com.acme.spring.hibernate.service.impl.DefaultStockService}.</p>
@@ -151,6 +158,10 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
       stockService.save(acme);
       stockService.save(redhat);
+
+      IntegrationHelper.executeIntegration();
+
+      System.out.println("Integration ran!");
     }
 
     /**
@@ -171,7 +182,11 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
       stockService.save(acme);
       stockService.save(redhat);
-    }
+
+      IntegrationHelper.executeIntegration();
+
+      System.out.println("Integration ran!");
+}
 
 
 

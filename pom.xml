@@ -371,10 +371,12 @@
             <artifactId>junit</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
+		<!-- https://mvnrepository.com/artifact/com.ibm.db2.jcc/db2jcc4 -->
+		<dependency>
+		    <groupId>com.ibm.db2.jcc</groupId>
+		    <artifactId>db2jcc4</artifactId>
+		    <version>10.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.arquillian.cube</groupId>
@@ -437,6 +439,72 @@
 	    <artifactId>arquillian-protocol-servlet</artifactId>
 	</dependency>
     </dependencies>
+
+    <build>
+     <plugins>
+        <!--  we need to have the build machine's IP address incase the docker server is running on it too -->
+		<plugin>
+		        <groupId>org.codehaus.groovy.maven</groupId>
+		        <artifactId>gmaven-plugin</artifactId>
+		        <executions>
+		            <execution>
+		                <phase>generate-resources</phase>
+		                <goals>
+		                    <goal>execute</goal>
+		              </goals>
+		               <configuration>
+		                  <source>
+		                  def addr = getBuildServerIP();
+		                  project.properties["host_addr"] = addr;
+		                  System.out.println("Set host_address to " + addr);
+
+		                  def getBuildServerIP() {
+		                    def iterNetwork = NetworkInterface.getNetworkInterfaces();
+                            while (iterNetwork.hasMoreElements())
+                             {
+                                network = iterNetwork.nextElement();
+
+							    if (!network.isUp())
+							      continue;
+
+							    if (network.isLoopback())  // don't want localhost
+							      continue;
+							    iterAddress = network.getInetAddresses();
+								while (iterAddress.hasMoreElements())
+								  {
+								     address = iterAddress.nextElement();
+
+								     if (address.isAnyLocalAddress())
+								        continue;
+
+								     if (address.isLoopbackAddress())
+								        continue;
+
+								     if (address.isMulticastAddress())
+								        continue;
+
+								     return(address.getHostAddress());
+								  }
+						  }
+		                }
+		                 </source>
+		             </configuration>
+		         </execution>
+		      </executions>
+		 </plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.19.1</version>
+			<configuration>
+				<systemPropertyVariables>
+					<server.ip>${host_addr}</server.ip>
+					<arq.extension.docker.serverUri>${host_addr}</arq.extension.docker.serverUri>
+				</systemPropertyVariables>
+			</configuration>
+		</plugin>
+     </plugins>
+    </build>
 
     <profiles>
        <profile>
@@ -513,7 +581,11 @@
             <name>REDHAT</name>
             <url>https://maven.repository.redhat.com/ga</url>
         </repository>
-
+        <repository>
+            <id>alfresco</id>
+            <name>alfresco</name>
+            <url>https://artifacts.alfresco.com/nexus/content/repositories/public</url>
+        </repository>
     </repositories>
 
 
