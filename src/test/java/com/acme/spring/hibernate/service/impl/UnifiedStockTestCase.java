@@ -60,17 +60,17 @@ import com.acme.spring.hibernate.service.StockService;
 @SpringConfiguration("applicationContext.xml")
 public class UnifiedStockTestCase implements ApplicationContextAware{
 
-	private ApplicationContext ctx;
+    private ApplicationContext ctx;
     @Override
-	public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-    	this.ctx = ctx;
-    	Arrays.stream( ctx.getBeanDefinitionNames() )
-    	  .forEach( name -> System.out.println( name ) );
-    	System.out.println("APP AWARE");
-	}
+    public void setApplicationContext(ApplicationContext ctx) throws BeansException {
+        this.ctx = ctx;
+        Arrays.stream( ctx.getBeanDefinitionNames() )
+          .forEach( name -> System.out.println( name ) );
+        System.out.println("APP AWARE");
+    }
 
 
-	/**
+    /**
      * <p>Creates the test deployment.</p>
      *
      * @return the test deployment
@@ -118,9 +118,9 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      */
     @Before
     public void before() throws SQLException {
-    	System.out.println("============== before =============== ");
-    	PostgresqlHelper.fixSequences( ds );
-    	System.out.println("============== fixed sequences =============== ");
+        System.out.println("============== before =============== ");
+        PostgresqlHelper.fixSequences( ds );
+        System.out.println("============== fixed sequences =============== ");
     }
 
     /**
@@ -128,7 +128,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
      */
     @After
     public void after() {
-    	System.out.println("============== after=============== ");
+        System.out.println("============== after=============== ");
     }
 
     /**
@@ -139,13 +139,14 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
     @UsingDataSet("stocktestcase_1/input.xml")
     @ShouldMatchDataSet(value = "stocktestcase_1/expected-result.xml", excludeColumns={"date"})
     public void test_case_1() {
-    	//NOOP test
+        //NOOP test
     }
 
     /**
      * Test case: http://beitrag-confluence/VVL/testcases/testcase2
      *
      */
+    @Test
     @UsingDataSet("stocktestcase_2/input.xml")
     @ShouldMatchDataSet(value = "stocktestcase_2/expected-result.xml", excludeColumns={"date"})
     public void test_case_2() {
@@ -190,7 +191,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
 
 
 
-	/**
+    /**
      * <p>Creates new stock instance</p>
      *
      * @param name   the stock name

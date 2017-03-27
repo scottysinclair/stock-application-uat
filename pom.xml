@@ -17,13 +17,13 @@
 
     <!-- Properties -->
     <properties>
-  		<maven.compiler.source>1.8</maven.compiler.source>
-    	<maven.compiler.target>1.8</maven.compiler.target>
+      <maven.compiler.source>1.8</maven.compiler.source>
+      <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- Arquillian version -->
-    	<version.arquillian>1.1.12.Final</version.arquillian>
-    	<version.arquillian.persistence>1.0.0.Alpha7</version.arquillian.persistence>
- 	    <version.arquillian.spring>1.0.0.Beta1</version.arquillian.spring>
+      <version.arquillian>1.1.12.Final</version.arquillian>
+      <version.arquillian.persistence>1.0.0.Alpha7</version.arquillian.persistence>
+       <version.arquillian.spring>1.0.0.Beta1</version.arquillian.spring>
         <version.arquillian.transaction>1.0.0.Alpha1</version.arquillian.transaction>
         <version.arquillian_cube>1.0.0.Alpha18</version.arquillian_cube>
 
@@ -68,11 +68,11 @@
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.jboss.arquillian.extension/arquillian-transaction-spi -->
-			<dependency>
-			    <groupId>org.jboss.arquillian.extension</groupId>
-			    <artifactId>arquillian-transaction-spi</artifactId>
-			    <version>1.0.3.Final</version>
-			</dependency>
+      <dependency>
+          <groupId>org.jboss.arquillian.extension</groupId>
+          <artifactId>arquillian-transaction-spi</artifactId>
+          <version>1.0.3.Final</version>
+      </dependency>
 
 
             <dependency>
@@ -120,43 +120,43 @@
                 <type>pom</type>
             </dependency>
 
-			<dependency>
-				<groupId>org.arquillian.cube</groupId>
-				<artifactId>arquillian-cube-bom</artifactId>
-				<version>${version.arquillian_cube}</version>
-				<scope>import</scope>
-				<type>pom</type>
-			</dependency>
+      <dependency>
+        <groupId>org.arquillian.cube</groupId>
+        <artifactId>arquillian-cube-bom</artifactId>
+        <version>${version.arquillian_cube}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
 
-			<dependency>
-				<groupId>org.jboss.arquillian.extension</groupId>
-				<artifactId>arquillian-persistence-api</artifactId>
-				<version>1.0.0.Alpha7</version>
-				<scope>test</scope>
-			</dependency>
-	        <dependency>
-	            <groupId>org.jboss.arquillian.extension</groupId>
-	            <artifactId>arquillian-persistence-core</artifactId>
-	            <version>${version.arquillian.persistence}</version>
-	            <scope>test</scope>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.jboss.arquillian.extension</groupId>
-	            <artifactId>arquillian-persistence-dbunit</artifactId>
-	            <version>${version.arquillian.persistence}</version>
-	            <scope>test</scope>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.jboss.arquillian.extension</groupId>
-	            <artifactId>arquillian-persistence-spi</artifactId>
-	            <version>1.0.0.Alpha7</version>
-	        </dependency>
-			<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.extension/arquillian-persistence-spring -->
-			<dependency>
-			    <groupId>org.jboss.arquillian.extension</groupId>
-			    <artifactId>arquillian-persistence-spring</artifactId>
-			    <version>1.1.0.Alpha1</version>
-			</dependency>
+      <dependency>
+        <groupId>org.jboss.arquillian.extension</groupId>
+        <artifactId>arquillian-persistence-api</artifactId>
+        <version>1.0.0.Alpha7</version>
+        <scope>test</scope>
+      </dependency>
+          <dependency>
+              <groupId>org.jboss.arquillian.extension</groupId>
+              <artifactId>arquillian-persistence-core</artifactId>
+              <version>${version.arquillian.persistence}</version>
+              <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.jboss.arquillian.extension</groupId>
+              <artifactId>arquillian-persistence-dbunit</artifactId>
+              <version>${version.arquillian.persistence}</version>
+              <scope>test</scope>
+          </dependency>
+          <dependency>
+              <groupId>org.jboss.arquillian.extension</groupId>
+              <artifactId>arquillian-persistence-spi</artifactId>
+              <version>1.0.0.Alpha7</version>
+          </dependency>
+      <!-- https://mvnrepository.com/artifact/org.jboss.arquillian.extension/arquillian-persistence-spring -->
+      <dependency>
+          <groupId>org.jboss.arquillian.extension</groupId>
+          <artifactId>arquillian-persistence-spring</artifactId>
+          <version>1.1.0.Alpha1</version>
+      </dependency>
             <dependency>
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
@@ -169,18 +169,18 @@
                 <version>5.0.9.Final-redhat-1</version>
             </dependency>
 
-			<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations -->
-			<dependency>
-			    <groupId>org.hibernate</groupId>
-			    <artifactId>hibernate-annotations</artifactId>
-			    <version>3.5.6-Final</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
-			<dependency>
-			    <groupId>org.hibernate.common</groupId>
-			    <artifactId>hibernate-commons-annotations</artifactId>
-			    <version>5.0.1.Final-redhat-2</version>
-			</dependency>
+      <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-annotations</artifactId>
+          <version>3.5.6-Final</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+      <dependency>
+          <groupId>org.hibernate.common</groupId>
+          <artifactId>hibernate-commons-annotations</artifactId>
+          <version>5.0.1.Final-redhat-2</version>
+      </dependency>
 
 
 
@@ -217,34 +217,34 @@
                 <version>1.3.166</version>
                 <scope>test</scope>
             </dependency>
-			<dependency>
-			    <groupId>org.jboss.arquillian.junit</groupId>
-			    <artifactId>arquillian-junit-container</artifactId>
-			    <version>${version.arquillian}</version>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>slf4j-log4j12</artifactId>
-			    <version>1.6.1</version>
-			</dependency>
-			<dependency>
-			    <groupId>org.slf4j</groupId>
-			    <artifactId>jcl-over-slf4j</artifactId>
-			    <version>1.6.1</version>
-			</dependency>
-	        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-	        <dependency>
-	            <groupId>org.postgresql</groupId>
-	            <artifactId>postgresql</artifactId>
-	            <version>42.0.0</version>
-	        </dependency>
-			<!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
-			<dependency>
-			    <groupId>org.dbunit</groupId>
-			    <artifactId>dbunit</artifactId>
-			    <version>2.5.0</version>
-			</dependency>
+      <dependency>
+          <groupId>org.jboss.arquillian.junit</groupId>
+          <artifactId>arquillian-junit-container</artifactId>
+          <version>${version.arquillian}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.6.1</version>
+      </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>jcl-over-slf4j</artifactId>
+          <version>1.6.1</version>
+      </dependency>
+          <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+          <dependency>
+              <groupId>org.postgresql</groupId>
+              <artifactId>postgresql</artifactId>
+              <version>42.0.0</version>
+          </dependency>
+      <!-- https://mvnrepository.com/artifact/org.dbunit/dbunit -->
+      <dependency>
+          <groupId>org.dbunit</groupId>
+          <artifactId>dbunit</artifactId>
+          <version>2.5.0</version>
+      </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -263,10 +263,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <exclusions>
-            	<exclusion>
-            		<artifactId>commons-logging</artifactId>
-            		<groupId>commons-logging</groupId>
-            	</exclusion>
+              <exclusion>
+                <artifactId>commons-logging</artifactId>
+                <groupId>commons-logging</groupId>
+              </exclusion>
             </exclusions>
         </dependency>
 
@@ -290,16 +290,16 @@
              <artifactId>hibernate-commons-annotations</artifactId>
          </dependency>
 <!--
-		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-annotations</artifactId>
-		    <exclusions>
-		    	<exclusion>
-		    		<artifactId>slf4j-api</artifactId>
-		    		<groupId>org.slf4j</groupId>
-		    	</exclusion>
-		    </exclusions>
-		</dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <exclusions>
+          <exclusion>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+          </exclusion>
+        </exclusions>
+    </dependency>
 -->
         <dependency>
             <groupId>org.javassist</groupId>
@@ -371,48 +371,48 @@
             <artifactId>junit</artifactId>
         </dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.ibm.db2.jcc/db2jcc4 -->
-		<dependency>
-		    <groupId>com.ibm.db2.jcc</groupId>
-		    <artifactId>db2jcc4</artifactId>
-		    <version>10.1</version>
-		</dependency>
+    <!-- https://mvnrepository.com/artifact/com.ibm.db2.jcc/db2jcc4 -->
+    <dependency>
+        <groupId>com.ibm.db2.jcc</groupId>
+        <artifactId>db2jcc4</artifactId>
+        <version>10.1</version>
+    </dependency>
 
-		<dependency>
-			<groupId>org.arquillian.cube</groupId>
-			<artifactId>arquillian-cube-docker</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>slf4j-api</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+    <dependency>
+      <groupId>org.arquillian.cube</groupId>
+      <artifactId>arquillian-cube-docker</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
          <dependency>
              <groupId>org.slf4j</groupId>
              <artifactId>slf4j-log4j12</artifactId>
             <scope>test</scope>
          </dependency>
-		<dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>jcl-over-slf4j</artifactId>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
             <scope>test</scope>
             <exclusions>
-            	<exclusion>
-            		<artifactId>slf4j-api</artifactId>
-            		<groupId>org.slf4j</groupId>
-            	</exclusion>
+              <exclusion>
+                <artifactId>slf4j-api</artifactId>
+                <groupId>org.slf4j</groupId>
+              </exclusion>
             </exclusions>
-		</dependency>
-		<dependency>
-		    <groupId>org.postgresql</groupId>
-		    <artifactId>postgresql</artifactId>
-		</dependency>
+    </dependency>
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+    </dependency>
             <dependency>
                 <groupId>org.dbunit</groupId>
                 <artifactId>dbunit</artifactId>
@@ -421,88 +421,93 @@
 
 
 
-		<!--  for remote debug classpath -->
-		<!-- https://mvnrepository.com/artifact/org.wildfly.core/wildfly-io -->
-		<dependency>
-		    <groupId>org.wildfly.core</groupId>
-		    <artifactId>wildfly-controller</artifactId>
-		    <version>2.1.2.Final-redhat-1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.core/arquillian-core-impl-base -->
-		<dependency>
-		    <groupId>org.jboss.arquillian.core</groupId>
-		    <artifactId>arquillian-core-impl-base</artifactId>
-		</dependency>
-	<!-- https://mvnrepository.com/artifact/org.jboss.arquillian.protocol/arquillian-protocol-servlet -->
-	<dependency>
-	    <groupId>org.jboss.arquillian.protocol</groupId>
-	    <artifactId>arquillian-protocol-servlet</artifactId>
-	</dependency>
+    <!--  for remote debug classpath -->
+    <!-- https://mvnrepository.com/artifact/org.wildfly.core/wildfly-io -->
+    <dependency>
+        <groupId>org.wildfly.core</groupId>
+        <artifactId>wildfly-controller</artifactId>
+        <version>2.1.2.Final-redhat-1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.jboss.arquillian.core/arquillian-core-impl-base -->
+    <dependency>
+        <groupId>org.jboss.arquillian.core</groupId>
+        <artifactId>arquillian-core-impl-base</artifactId>
+    </dependency>
+  <!-- https://mvnrepository.com/artifact/org.jboss.arquillian.protocol/arquillian-protocol-servlet -->
+  <dependency>
+      <groupId>org.jboss.arquillian.protocol</groupId>
+      <artifactId>arquillian-protocol-servlet</artifactId>
+  </dependency>
     </dependencies>
 
     <build>
      <plugins>
         <!--  we need to have the build machine's IP address incase the docker server is running on it too -->
-		<plugin>
-		        <groupId>org.codehaus.groovy.maven</groupId>
-		        <artifactId>gmaven-plugin</artifactId>
-		        <executions>
-		            <execution>
-		                <phase>generate-resources</phase>
-		                <goals>
-		                    <goal>execute</goal>
-		              </goals>
-		               <configuration>
-		                  <source>
-		                  def addr = getBuildServerIP();
-		                  project.properties["host_addr"] = addr;
-		                  System.out.println("Set host_address to " + addr);
+    <plugin>
+            <groupId>org.codehaus.groovy.maven</groupId>
+            <artifactId>gmaven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <goals>
+                        <goal>execute</goal>
+                  </goals>
+                   <configuration>
+                      <source>
+                      def addr = getBuildServerIP();
+                      project.properties["host_addr"] = addr;
+                      System.out.println("-------------------------------------------------------");
+                      System.out.println("Set host_address to " + addr);
+                          System.out.println("-------------------------------------------------------");
 
-		                  def getBuildServerIP() {
-		                    def iterNetwork = NetworkInterface.getNetworkInterfaces();
+                      def getBuildServerIP() {
+                        def iterNetwork = NetworkInterface.getNetworkInterfaces();
                             while (iterNetwork.hasMoreElements())
                              {
                                 network = iterNetwork.nextElement();
 
-							    if (!network.isUp())
-							      continue;
+                  if (!network.isUp())
+                    continue;
 
-							    if (network.isLoopback())  // don't want localhost
-							      continue;
-							    iterAddress = network.getInetAddresses();
-								while (iterAddress.hasMoreElements())
-								  {
-								     address = iterAddress.nextElement();
+                  if (network.isLoopback())  // don't want localhost
+                    continue;
+                  iterAddress = network.getInetAddresses();
+                while (iterAddress.hasMoreElements())
+                  {
+                     address = iterAddress.nextElement();
 
-								     if (address.isAnyLocalAddress())
-								        continue;
+                     if (address.isAnyLocalAddress())
+                        continue;
 
-								     if (address.isLoopbackAddress())
-								        continue;
+                     if (address.isLoopbackAddress())
+                        continue;
 
-								     if (address.isMulticastAddress())
-								        continue;
+                     if (address.isMulticastAddress())
+                        continue;
 
-								     return(address.getHostAddress());
-								  }
-						  }
-		                }
-		                 </source>
-		             </configuration>
-		         </execution>
-		      </executions>
-		 </plugin>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-surefire-plugin</artifactId>
-			<version>2.19.1</version>
-			<configuration>
-				<systemPropertyVariables>
-					<server.ip>${host_addr}</server.ip>
-					<arq.extension.docker.serverUri>${host_addr}</arq.extension.docker.serverUri>
-				</systemPropertyVariables>
-			</configuration>
-		</plugin>
+                     if (address.getHostAddress().length() > 15) {
+                       continue;
+                     }
+
+                     return(address.getHostAddress());
+                  }
+              }
+                    }
+                     </source>
+                 </configuration>
+             </execution>
+          </executions>
+     </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>2.19.1</version>
+      <configuration>
+        <systemPropertyVariables>
+          <arq.extension.docker.serverUri>tcp://${host_addr}:4243</arq.extension.docker.serverUri>
+        </systemPropertyVariables>
+      </configuration>
+    </plugin>
      </plugins>
     </build>
 
@@ -518,13 +523,13 @@
                     <version>3.0.3.Final</version>
                 </dependency>
                 <!--
-	         <dependency>
-	            <groupId>org.jboss.as</groupId>
-	            <artifactId>jboss-as-arquillian-container-remote</artifactId>
-	            <version>7.1.1.Final</version>
-	            <scope>test</scope>
-	        </dependency>
-	         -->
+           <dependency>
+              <groupId>org.jboss.as</groupId>
+              <artifactId>jboss-as-arquillian-container-remote</artifactId>
+              <version>7.1.1.Final</version>
+              <scope>test</scope>
+          </dependency>
+           -->
 <!--
                 <dependency>
                     <groupId>org.jboss.as</groupId>

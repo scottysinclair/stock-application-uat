@@ -50,15 +50,15 @@ public final class Deployments {
      * @return the create archive
      */
     public static WebArchive createDeployment() {
-    	File stockServicesJar = Maven.resolver().loadPomFromFile("pom.xml")
-        		.resolve("org.scott:stock-application:1.0.0-SNAPSHOT")
-        		.withoutTransitivity().asSingleFile();
+        File stockServicesJar = Maven.resolver().loadPomFromFile("pom.xml")
+                .resolve("org.scott:stock-application:1.0.0-SNAPSHOT")
+                .withoutTransitivity().asSingleFile();
 
 
 
-    	WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
-    	  .addClass(PostgresqlHelper.class)
-    	  .addClass(IntegrationHelper.class)
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
+          .addClass(PostgresqlHelper.class)
+          .addClass(IntegrationHelper.class)
           .addAsResource("applicationContext.xml")
           .addAsResource("create.sql")
           .addAsResource("delete.sql")
@@ -67,12 +67,12 @@ public final class Deployments {
           .addAsLibrary(stockServicesJar)
           .addAsLibraries(springDependencies());
 
-    	for (Map.Entry<ArchivePath, Node> e: archive.getContent().entrySet()) {
-    		System.out.println(e.getKey());
-    	}
+        for (Map.Entry<ArchivePath, Node> e: archive.getContent().entrySet()) {
+            System.out.println(e.getKey());
+        }
 
 
-    	return archive;
+        return archive;
 //    	WebArchive archive = ShrinkWrap.create(WebArchive.class, "spring-test.war")
 //                .addClasses(Stock.class, StockRepository.class, StockService.class,
 //                        HibernateStockRepository.class, DefaultStockService.class, HibernateTestHelper.class)
@@ -124,6 +124,6 @@ public final class Deployments {
      * @return the resolved files
      */
     public static List<File> resolveDependencies(String artifactName) {
-    	return Arrays.asList( Maven.resolver().loadPomFromFile("pom.xml").resolve(artifactName).withTransitivity().asFile());
+        return Arrays.asList( Maven.resolver().loadPomFromFile("pom.xml").resolve(artifactName).withTransitivity().asFile());
     }
 }

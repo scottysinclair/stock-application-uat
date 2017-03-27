@@ -6,9 +6,9 @@
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
 
-	<extension qualifier="cube">
-		<property name="connectionMode">STARTORCONNECTANDLEAVE</property>
-	</extension>
+  <extension qualifier="cube">
+    <property name="connectionMode">STARTORCONNECTANDLEAVE</property>
+  </extension>
 
   <!--  control of the docker compose configuration -->
   <extension qualifier="docker">
@@ -24,7 +24,7 @@
           portBindings: [8080->8080/tcp, 9990->9990/tcp, 9999->9999/tcp]
           depends_on: [db,olddb]
           environment:
-            - DOCKER_SERVER_URI=http://${server.ip}:4243
+            - DOCKER_SERVER_URI=${arq.extension.docker.serverUri}
         batch:
           build:
             context: ../stock-application-batch
@@ -48,7 +48,7 @@
     </property>
 
     <!--  properties related to how arquillian uses the docker container -->
-	<property name="cubeSpecificProperties">
+  <property name="cubeSpecificProperties">
       web:
         await:
           strategy: log
@@ -84,22 +84,22 @@
     </extension>
 
 
-	<container qualifier="web" default="true">
-		<configuration>
+  <container qualifier="web" default="true">
+    <configuration>
         <property name="chameleonTarget">jboss eap:7.0.1:remote</property>
-			<property name="managementAddress">172.18.0.5</property>
-			<property name="managementPort">9990</property>
+      <property name="managementAddress">172.18.0.5</property>
+      <property name="managementPort">9990</property>
             <property name="username">admin</property>
             <property name="password">admin</property>
-		</configuration>
+    </configuration>
 
         <!--  the protocol used by arquillian to execute the tests on JBOSS -->
-	     <protocol type="Servlet 3.0">
-	        <property name="host">172.18.0.5</property>
-	        <property name="port">8080</property>
-	        <!--  contextRoot -->
-	     </protocol>
-	</container>
+       <protocol type="Servlet 3.0">
+          <property name="host">172.18.0.5</property>
+          <property name="port">8080</property>
+          <!--  contextRoot -->
+       </protocol>
+  </container>
 
 
 
