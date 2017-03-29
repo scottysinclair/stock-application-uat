@@ -132,8 +132,8 @@ public class UnifiedStockTestCase  {
       /*
        * clean and prepare old and new databases
        */
-      postgresHelper.prepareDatabase("stocktestcase_2/input_ds.xml");
-      db2Helper.prepareDatabase("stocktestcase_2/input_dsInt.xml");
+      postgresHelper.prepareNewDatabase();
+      db2Helper.prepareOldDatabase();
 
       Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
       stockService.save(acme);
@@ -144,7 +144,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      postgresHelper.assertTestData("stocktestcase_2/expected_result_1.xml", new String[]{"date"});
+      postgresHelper.assertNewTestData(new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -154,7 +154,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      db2Helper.assertTestData("stocktestcase_2/expected_result_2.xml", new String[]{"date"});
+      db2Helper.assertFirstIntegration(new String[]{"date"});
     }
 
 

@@ -24,11 +24,57 @@ public class DatabaseHelper {
         this.dataSource = dataSource;
     }
 
+    /**
+     * Prepares the new database.</br>
+     * Looks for file 'input_ds.xml' in the folder for the test case.<br/>
+     * <br/>
+     * This method must be called directly in the test case method so that the
+     * test case name can be found from the StackTraceElement
+     * @throws Exception
+     */
+    public void prepareNewDatabase() throws Exception {
+        prepareDatabase('/' + getTestCaseName() + "/input_ds.xml");
+    }
+
+    /**
+     * Prepares the new database.</br>
+     * Looks for file 'input_dsInt.xml' in the folder for the test case.<br/>
+     * <br/>
+     * This method must be called directly in the test case method so that the
+     * test case name can be found from the StackTraceElement
+     * @throws Exception
+     */
+    public void prepareOldDatabase() throws Exception {
+        prepareDatabase('/' + getTestCaseName() + "/input_dsInt.xml");
+    }
+
+    private String getTestCaseName() {
+        StackTraceElement elements[] = Thread.currentThread().getStackTrace();
+        return elements[3].getMethodName();
+    }
+
+
     public void prepareDatabase(String datasetPath) throws Exception {
         IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(readDataSetFromClasspath(datasetPath));
         databaseTester.onSetup();
+    }
+
+    public void assertNewTestData() throws Exception {
+        assertTestData("/" + getTestCaseName() + "/expected_result_1.xml", null, null);
+    }
+
+    public void assertNewTestData(String excludedColumns[]) throws Exception {
+        assertTestData("/" + getTestCaseName() + "/expected_result_1.xml", null, excludedColumns);
+    }
+
+    public void assertFirstIntegration() throws Exception {
+        assertTestData("/" + getTestCaseName() + "/expected_result_2.xml", null, null);
+    }
+
+    public void assertFirstIntegration(String excludedColumns[]) throws Exception {
+        assertTestData("/" + getTestCaseName() + "/expected_result_2.xml", null, excludedColumns);
     }
 
     public void assertTestData(String datasetPath, String excludedColumns[]) throws Exception {
