@@ -62,26 +62,26 @@ public class DatabaseHelper {
     }
 
     public void assertNewTestData() throws Exception {
-        assertTestData("/" + getTestCaseName() + "/expected_result_1.xml", null, null);
+        assertTestData("asserting new application database", "/" + getTestCaseName() + "/expected_result_1.xml", null, null);
     }
 
     public void assertNewTestData(String excludedColumns[]) throws Exception {
-        assertTestData("/" + getTestCaseName() + "/expected_result_1.xml", null, excludedColumns);
+        assertTestData("asserting new application database", "/" + getTestCaseName() + "/expected_result_1.xml", null, excludedColumns);
     }
 
     public void assertFirstIntegration() throws Exception {
-        assertTestData("/" + getTestCaseName() + "/expected_result_2.xml", null, null);
+        assertTestData("asserting integration tables", "/" + getTestCaseName() + "/expected_result_2.xml", null, null);
     }
 
     public void assertFirstIntegration(String excludedColumns[]) throws Exception {
-        assertTestData("/" + getTestCaseName() + "/expected_result_2.xml", null, excludedColumns);
+        assertTestData("asserting integration tables", "/" + getTestCaseName() + "/expected_result_2.xml", null, excludedColumns);
     }
 
-    public void assertTestData(String datasetPath, String excludedColumns[]) throws Exception {
-        assertTestData(datasetPath, null, excludedColumns);
+    public void assertTestData(String context, String datasetPath, String excludedColumns[]) throws Exception {
+        assertTestData(context, datasetPath, null, excludedColumns);
     }
 
-    public void assertTestData(String datasetPath, String orderBy[],
+    public void assertTestData(final String context, String datasetPath, String orderBy[],
             String excludedColumns[]) throws Exception {
 
         if (orderBy == null) {
@@ -95,14 +95,27 @@ public class DatabaseHelper {
         IDatabaseConnection connection = new DatabaseDataSourceConnection(dataSource);
         IDataSet currentDataSet = new DatabaseDataSet(connection, false);
         IDataSet expectedDataSet = readDataSetFromClasspath(datasetPath);
+
         AssertionErrorCollector errorCollector = new AssertionErrorCollector();
 
         comparator.compare(currentDataSet, expectedDataSet, errorCollector);
 
         /*
-         * fail with errors if we need to
+         * fail with errors if we need to (we catch the exception and adjust it to add the context information
          */
-        errorCollector.report();
+        try {
+            errorCollector.report();
+        }
+        catch(AssertionError x) {
+            if (context != null)  {
+                AssertionError xAdjusted = new AssertionError("Test Failed " + context + "\n" + x.getMessage());
+                xAdjusted.setStackTrace( x.getStackTrace() );
+                throw xAdjusted;
+            }
+            else {
+                throw x;
+            }
+        }
     }
 
     private IDataSet readDataSetFromClasspath(String datasetPath) throws Exception {

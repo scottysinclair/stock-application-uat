@@ -17,26 +17,21 @@
 package com.acme.spring.hibernate.service.impl;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
 import org.jboss.shrinkwrap.api.Archive;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.acme.spring.hibernate.DatabaseHelper;
 import com.acme.spring.hibernate.Db2Helper;
 import com.acme.spring.hibernate.Deployments;
 import com.acme.spring.hibernate.IntegrationHelper;
@@ -62,7 +57,6 @@ public class UnifiedStockTestCase  {
     public static Archive<?> createTestArchive() {
         return Deployments.createDeployment();
     }
-
 
     @Autowired
     @Qualifier("dataSource")
@@ -95,36 +89,7 @@ public class UnifiedStockTestCase  {
     }
 
     /**
-     * <p>Retrieves current {@link Session}.</p>
-     *
-     * @return the current session
-     */
-    public Session getSession() {
-        return sessionFactory.getCurrentSession();
-    }
-
-
-    /**
-     * @ApplyScriptBefore is called before @UsingDataSet
-     * @UsingDataSet is called before @Before
-     *
-     */
-    @Before
-    public void before() throws SQLException {
-        System.out.println("============== before =============== ");
-    }
-
-    /**
-     * @After is called before @ApplyScriptAfter
-     */
-    @After
-    public void after() {
-        System.out.println("============== after=============== ");
-    }
-
-
-    /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase2
+     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
      *
      */
     @Test
@@ -135,6 +100,9 @@ public class UnifiedStockTestCase  {
       postgresHelper.prepareNewDatabase();
       db2Helper.prepareOldDatabase();
 
+      /*
+       * perform some business logic in the new application
+       */
       Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
       stockService.save(acme);
 
@@ -157,6 +125,40 @@ public class UnifiedStockTestCase  {
       db2Helper.assertFirstIntegration(new String[]{"date"});
     }
 
+
+    /**
+     * Test case: http://beitrag-confluence/VVL/testcases/testcase2
+     *
+     */
+    @Test
+    public void test_case_2() throws Exception  {
+      /*
+       * clean and prepare old and new databases
+       */
+      postgresHelper.prepareNewDatabase();
+      db2Helper.prepareOldDatabase();
+
+      /*
+       * perform some business logic in the new application
+       */
+      Stock acme = createStock("ABC", "ABC", 999.21D, new Date());
+      stockService.save(acme);
+
+      /*
+       * assert the state of the new application database.
+       */
+      postgresHelper.assertNewTestData(new String[]{"date"});
+
+      /*
+       * execute the integration job.
+       */
+      IntegrationHelper.executeIntegration();
+
+      /*
+       * assert the state of the DB2 database after integration.
+       */
+      db2Helper.assertFirstIntegration(new String[]{"date"});
+    }
 
     /**
      * <p>Creates new stock instance</p>

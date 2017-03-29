@@ -1,0 +1,5 @@
+<dataset>
+    <Stock id="1" name="Apple" symbol="APPL" value="100.02" date="2016-02-12"/>
+    <Stock id="2" name="Intelligen Business Machines" symbol="IBM" value="120.02" date="2016-02-12"/>
+    <Stock id="3" name="ABC" symbol="ABC" value="999.21" date="2016-02-12"/>
+</dataset>

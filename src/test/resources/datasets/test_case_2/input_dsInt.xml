@@ -1,0 +1,4 @@
+<dataset>
+    <!-- referring to the table will ensure that it is cleared in the CLEAN_INSERT operation -->
+    <StockInt/>
+</dataset>
