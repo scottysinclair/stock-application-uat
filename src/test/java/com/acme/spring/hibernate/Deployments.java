@@ -54,15 +54,11 @@ public final class Deployments {
                 .resolve("org.scott:stock-application:1.0.0-SNAPSHOT")
                 .withoutTransitivity().asSingleFile();
 
-
-
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
           .addClass(PostgresqlHelper.class)
           .addClass(IntegrationHelper.class)
+          .addClass(DatabaseHelper.class)
           .addAsResource("applicationContext.xml")
-          .addAsResource("create.sql")
-          .addAsResource("delete.sql")
-          .addAsResource("insert.sql")
           .addAsResource("datasets")
           .addAsLibrary(stockServicesJar)
           .addAsLibraries(springDependencies());

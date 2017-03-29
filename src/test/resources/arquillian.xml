@@ -31,20 +31,19 @@
             noCache: true
             remove: true
         db:
-          image: postgres
           hostname: db
           portBindings: [5432->5432/tcp]
-          environment:
-            - POSTGRES_USER=test_user
-            - POSTGRES_PASSWORD=password
-            - POSTGRES_DB=test_db
+          build:
+            context: src/test/resources/docker/postgres_uat
+            noCache: true
+            remove: true
         olddb:
-          image: db2
           hostname: olddb
           portBindings: [50000->50000/tcp,22->22/tcp]
-          environment:
-            - DB2INST1_PASSWORD=password
-            - LICENSE=accept
+          build:
+            context: src/test/resources/docker/db2_uat
+            noCache: true
+            remove: true
     </property>
 
     <!--  properties related to how arquillian uses the docker container -->
@@ -63,10 +62,10 @@
           timeout: 60
       olddb:
         await:
-          strategy: polling
-          ports: [50000]
-          sleepPollingTime: 10 s
-          iterations: 6
+          strategy: log
+          match: DB2 Ready
+          sleepPollingTime: 10
+          timeout: 60
      </property>
   </extension>
 

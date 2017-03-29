@@ -9,6 +9,11 @@ import javax.sql.DataSource;
 
 public class PostgresqlHelper {
 
+    public static void prepareDatabase(DataSource dataSource, String datasetPath) throws Exception {
+        DatabaseHelper.prepareDatabase(dataSource, datasetPath);
+        fixSequences(dataSource);
+    }
+
     public static void fixSequences(DataSource dataSource) throws SQLException {
             try (Connection con = dataSource.getConnection() ) {
                 try ( Statement seqStmt = con.createStatement() ) {

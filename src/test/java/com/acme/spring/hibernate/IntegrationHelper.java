@@ -2,14 +2,14 @@ package com.acme.spring.hibernate;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class IntegrationHelper {
 
-        private static final Logger LOG = LoggerFactory.getLogger(IntegrationHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IntegrationHelper.class);
 
     private static final String BATCH_CONTAINER_NAME = "batch";
     private static final String INTEGRATION_SCRIPT = "/opt/stock-application-batch/run_integration.sh";
@@ -55,8 +55,8 @@ public class IntegrationHelper {
         }
     }
 
-        private static void logLine(String line) {
-            LOG.info(line);
-        }
+    private static void logLine(String line) {
+        LOG.info(line);
+    }
 
 }

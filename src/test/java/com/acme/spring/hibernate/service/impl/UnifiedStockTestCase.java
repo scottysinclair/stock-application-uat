@@ -31,6 +31,7 @@ import org.hibernate.SessionFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ApplyScriptBefore;
+import org.jboss.arquillian.persistence.CreateSchema;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
@@ -45,6 +46,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import com.acme.spring.hibernate.DatabaseHelper;
 import com.acme.spring.hibernate.Deployments;
 import com.acme.spring.hibernate.IntegrationHelper;
 import com.acme.spring.hibernate.PostgresqlHelper;
@@ -58,17 +60,7 @@ import com.acme.spring.hibernate.service.StockService;
  */
 @RunWith(Arquillian.class)
 @SpringConfiguration("applicationContext.xml")
-public class UnifiedStockTestCase implements ApplicationContextAware{
-
-    private ApplicationContext ctx;
-    @Override
-    public void setApplicationContext(ApplicationContext ctx) throws BeansException {
-        this.ctx = ctx;
-        Arrays.stream( ctx.getBeanDefinitionNames() )
-          .forEach( name -> System.out.println( name ) );
-        System.out.println("APP AWARE");
-    }
-
+public class UnifiedStockTestCase  {
 
     /**
      * <p>Creates the test deployment.</p>
@@ -119,7 +111,7 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
     @Before
     public void before() throws SQLException {
         System.out.println("============== before =============== ");
-        PostgresqlHelper.fixSequences( ds );
+        PostgresqlHelper.fixSequences( ds);
         System.out.println("============== fixed sequences =============== ");
     }
 
@@ -131,64 +123,40 @@ public class UnifiedStockTestCase implements ApplicationContextAware{
         System.out.println("============== after=============== ");
     }
 
-    /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase1
-     *
-     */
-    @Test
-    @UsingDataSet("stocktestcase_1/input.xml")
-    @ShouldMatchDataSet(value = "stocktestcase_1/expected-result.xml", excludeColumns={"date"})
-    public void test_case_1() {
-        //NOOP test
-    }
 
     /**
      * Test case: http://beitrag-confluence/VVL/testcases/testcase2
      *
      */
     @Test
-    @UsingDataSet("stocktestcase_2/input.xml")
-    @ShouldMatchDataSet(value = "stocktestcase_2/expected-result.xml", excludeColumns={"date"})
-    public void test_case_2() {
-
-      List<Stock> stocks = stockService.getAll();
-      assertEquals(stocks.size(), 2);
+    public void test_case_1() throws Exception  {
+      /*
+       * clean and prepare old and new databases
+       */
+      PostgresqlHelper.prepareDatabase(ds, "stocktestcase_2/input_ds.xml");
+      DatabaseHelper.prepareDatabase(dsInt, "stocktestcase_2/input_dsInt.xml");
 
       Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
+      stockService.save(acme);
+
       Stock redhat = createStock("Red Hat", "RHC", 59.61D, new Date());
-
-      stockService.save(acme);
       stockService.save(redhat);
 
+      /*
+       * assert the state of the new application database.
+       */
+      DatabaseHelper.assertTestData(ds, "stocktestcase_2/expected_result_1.xml", new String[]{"date"});
+
+      /*
+       * execute the integration job.
+       */
       IntegrationHelper.executeIntegration();
 
-      System.out.println("Integration ran!");
+      /*
+       * assert the state of the DB2 database after integration.
+       */
+      DatabaseHelper.assertTestData(dsInt, "stocktestcase_2/expected_result_2.xml", new String[]{"date"});
     }
-
-    /**
-     * Test case: http://beitrag-confluence/VVL/testcases/testcase3
-     *
-     * THIS TESTCASE USES THE EXPECTED RESULT OF TESTCASE 2 AS THE STARTING POINT
-     */
-    @Test
-    @UsingDataSet("stocktestcase_2/expected-result.xml")
-    @ShouldMatchDataSet(value = "stocktestcase_3/expected-result.xml", excludeColumns={"date"})
-    public void test_case_3() {
-
-      List<Stock> stocks = stockService.getAll();
-      assertEquals(stocks.size(), 4);
-
-      Stock acme = createStock("XAcme", "XACM", 123.21D, new Date());
-      Stock redhat = createStock("XRed Hat", "XRHC", 59.61D, new Date());
-
-      stockService.save(acme);
-      stockService.save(redhat);
-
-      IntegrationHelper.executeIntegration();
-
-      System.out.println("Integration ran!");
-}
-
 
 
     /**
