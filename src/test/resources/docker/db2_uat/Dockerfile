@@ -2,7 +2,7 @@
 # The base image has db2-express installed as well as a small Java utility
 # to execute SQL scripts
 #
-FROM db2-express-sr
+FROM scottysinclair/db2-express-sr
 
 ENV DB2INST1_PASSWORD=password
 ENV LICENSE=accept

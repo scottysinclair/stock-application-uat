@@ -23,17 +23,17 @@
         <!-- Arquillian version -->
       <version.arquillian>1.1.12.Final</version.arquillian>
       <version.arquillian.persistence>1.0.0.Alpha7</version.arquillian.persistence>
-       <version.arquillian.spring>1.0.0.Beta1</version.arquillian.spring>
-        <version.arquillian.transaction>1.0.0.Alpha1</version.arquillian.transaction>
-        <version.arquillian_cube>1.0.0.Alpha18</version.arquillian_cube>
+      <version.arquillian.spring>1.0.0.Beta1</version.arquillian.spring>
+      <version.arquillian.transaction>1.0.0.Alpha1</version.arquillian.transaction>
+      <version.arquillian_cube>1.0.0.Alpha18</version.arquillian_cube>
 
-        <!-- Test related -->
-        <version.junit_junit>4.12</version.junit_junit>
-        <version.testng_testng>6.5.2</version.testng_testng>
-        <version.mockito_all>1.8.3</version.mockito_all>
+      <!-- Test related -->
+      <version.junit_junit>4.12</version.junit_junit>
+      <version.testng_testng>6.5.2</version.testng_testng>
+      <version.mockito_all>1.8.3</version.mockito_all>
 
-        <version.spring_framework>4.3.4.RELEASE</version.spring_framework>
-        <version.cglib>2.2.2</version.cglib>
+      <version.spring_framework>4.3.4.RELEASE</version.spring_framework>
+      <version.cglib>2.2.2</version.cglib>
     </properties>
 
     <!-- Dependency Management -->
@@ -74,6 +74,12 @@
           <version>1.0.3.Final</version>
       </dependency>
 
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${version.spring_framework}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -504,6 +510,7 @@
       <version>2.19.1</version>
       <configuration>
         <systemPropertyVariables>
+          <version.application.totest>${version.application.totest}</version.application.totest>
           <arq.extension.docker.serverUri>tcp://${host_addr}:4243</arq.extension.docker.serverUri>
         </systemPropertyVariables>
       </configuration>

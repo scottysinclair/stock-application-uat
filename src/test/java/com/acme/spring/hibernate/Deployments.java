@@ -34,7 +34,6 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
  * @author <a href="mailto:jmnarloch@gmail.com">Jakub Narloch</a>
  */
 public final class Deployments {
-
     /**
      * <p>Creates new instance of {@link Deployments} class.</p>
      *
@@ -50,42 +49,30 @@ public final class Deployments {
      * @return the create archive
      */
     public static WebArchive createDeployment() {
-        File stockServicesJar = Maven.resolver().loadPomFromFile("pom.xml")
-                .resolve("org.scott:stock-application:1.0.0-SNAPSHOT")
-                .withoutTransitivity().asSingleFile();
+        try {
+            File stockServicesJar = Maven.resolver().loadPomFromFile("pom.xml")
+                    .resolve("org.scott:stock-application")
+                    .withoutTransitivity().asSingleFile();
 
-        WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
-          .addClass(IntegrationHelper.class)
-          .addClass(DatabaseHelper.class)
-          .addClass(PostgresqlHelper.class)
-          .addClass(Db2Helper.class)
-          .addAsResource("applicationContext.xml")
-          .addAsResource("datasets")
-          .addAsLibrary(stockServicesJar)
-          .addAsLibraries(springDependencies());
+            WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
+              .addClass(IntegrationHelper.class)
+              .addClass(DatabaseHelper.class)
+              .addClass(PostgresqlHelper.class)
+              .addClass(Db2Helper.class)
+              .addAsResource("applicationContext.xml")
+              .addAsResource("datasets")
+              .addAsLibrary(stockServicesJar)
+              .addAsLibraries(springDependencies());
 
-        for (Map.Entry<ArchivePath, Node> e: archive.getContent().entrySet()) {
-            System.out.println(e.getKey());
+            for (Map.Entry<ArchivePath, Node> e: archive.getContent().entrySet()) {
+                System.out.println(e.getKey());
+            }
+            return archive;
         }
-
-
-        return archive;
-//    	WebArchive archive = ShrinkWrap.create(WebArchive.class, "spring-test.war")
-//                .addClasses(Stock.class, StockRepository.class, StockService.class,
-//                        HibernateStockRepository.class, DefaultStockService.class, HibernateTestHelper.class)
-//                .addAsWebInfResource("jbossas-ds.xml")
-//                .addAsResource("applicationContext-repository.xml")
-//                .addAsResource("applicationContext-service.xml")
-//                .addAsResource("applicationContext.xml")
-//                .addAsResource("create.sql")
-//                .addAsResource("delete.sql")
-//                .addAsResource("insert.sql")
-//                .addAsResource("datasets")
-//                .addAsLibraries(springDependencies());
-//
-//    	System.out.println("============================");
-//    	System.out.println( archive );
-
+        catch(RuntimeException x) {
+            x.printStackTrace(System.err);
+            throw x;
+        }
     }
 
     /**
@@ -94,22 +81,18 @@ public final class Deployments {
      * @return the array of the dependencies
      */
     public static File[] springDependencies() {
-
-
-
         ArrayList<File> files = new ArrayList<File>();
-
-        files.addAll(resolveDependencies("org.springframework:spring-web:4.3.4.RELEASE"));
-        files.addAll(resolveDependencies("org.springframework:spring-context:4.3.4.RELEASE"));
-        files.addAll(resolveDependencies("org.springframework:spring-orm:4.3.4.RELEASE"));
-        files.addAll(resolveDependencies("org.springframework:spring-tx:4.3.4.RELEASE"));
-        files.addAll(resolveDependencies("org.hibernate:hibernate-core:5.0.9.Final-redhat-1"));
+        files.addAll(resolveDependencies("org.springframework:spring-web"));
+        files.addAll(resolveDependencies("org.springframework:spring-context"));
+        files.addAll(resolveDependencies("org.springframework:spring-orm"));
+        files.addAll(resolveDependencies("org.springframework:spring-tx"));
+        files.addAll(resolveDependencies("org.hibernate:hibernate-core"));
         //files.addAll(resolveDependencies("org.hibernate:hibernate-annotations:3.5.6-Final"));
-        files.addAll(resolveDependencies("org.hibernate.common:hibernate-commons-annotations:5.0.1.Final-redhat-2"));
-        files.addAll(resolveDependencies("org.javassist:javassist:3.18.1.GA-redhat-2"));
-        files.addAll(resolveDependencies("org.postgresql:postgresql:42.0.0"));
-        files.addAll(resolveDependencies("com.ibm.db2.jcc:db2jcc4:10.1"));
-        files.addAll(resolveDependencies("org.dbunit:dbunit:2.4.9"));
+        files.addAll(resolveDependencies("org.hibernate.common:hibernate-commons-annotations"));
+        files.addAll(resolveDependencies("org.javassist:javassist"));
+        files.addAll(resolveDependencies("org.postgresql:postgresql"));
+        files.addAll(resolveDependencies("com.ibm.db2.jcc:db2jcc4"));
+        files.addAll(resolveDependencies("org.dbunit:dbunit"));
         return files.toArray(new File[files.size()]);
     }
 
