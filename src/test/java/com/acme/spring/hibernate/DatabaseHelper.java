@@ -18,18 +18,24 @@ import org.jboss.arquillian.persistence.dbunit.DataSetComparator;
 
 public class DatabaseHelper {
 
-    public static void prepareDatabase(DataSource dataSource, String datasetPath) throws Exception {
+    protected final DataSource dataSource;
+
+    public DatabaseHelper(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public void prepareDatabase(String datasetPath) throws Exception {
         IDatabaseTester databaseTester = new DataSourceDatabaseTester(dataSource);
         databaseTester.setSetUpOperation(DatabaseOperation.CLEAN_INSERT);
         databaseTester.setDataSet(readDataSetFromClasspath(datasetPath));
         databaseTester.onSetup();
     }
 
-    public static void assertTestData(DataSource dataSource, String datasetPath, String excludedColumns[]) throws Exception {
-        assertTestData(dataSource, datasetPath, null, excludedColumns);
+    public void assertTestData(String datasetPath, String excludedColumns[]) throws Exception {
+        assertTestData(datasetPath, null, excludedColumns);
     }
 
-    public static void assertTestData(DataSource dataSource, String datasetPath, String orderBy[],
+    public void assertTestData(String datasetPath, String orderBy[],
             String excludedColumns[]) throws Exception {
 
         if (orderBy == null) {
@@ -53,7 +59,7 @@ public class DatabaseHelper {
         errorCollector.report();
     }
 
-    private static IDataSet readDataSetFromClasspath(String datasetPath) throws Exception {
+    private IDataSet readDataSetFromClasspath(String datasetPath) throws Exception {
         try (InputStream in = IntegrationHelper.class.getResourceAsStream("/datasets/" + datasetPath);) {
             return new FlatXmlDataSetBuilder().build(in);
         }

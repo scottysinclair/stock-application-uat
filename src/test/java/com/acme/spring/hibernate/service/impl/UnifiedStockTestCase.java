@@ -16,37 +16,28 @@
  */
 package com.acme.spring.hibernate.service.impl;
 
-import static org.junit.Assert.assertEquals;
-
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.arquillian.persistence.ApplyScriptBefore;
-import org.jboss.arquillian.persistence.CreateSchema;
-import org.jboss.arquillian.persistence.ShouldMatchDataSet;
-import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.arquillian.spring.integration.test.annotation.SpringConfiguration;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import com.acme.spring.hibernate.DatabaseHelper;
+import com.acme.spring.hibernate.Db2Helper;
 import com.acme.spring.hibernate.Deployments;
 import com.acme.spring.hibernate.IntegrationHelper;
 import com.acme.spring.hibernate.PostgresqlHelper;
@@ -81,6 +72,10 @@ public class UnifiedStockTestCase  {
     @Qualifier("dataSourceInt")
     private DataSource dsInt;
 
+    private PostgresqlHelper postgresHelper;
+
+    private Db2Helper db2Helper;
+
     /**
      * <p>Injected {@link com.acme.spring.hibernate.service.impl.DefaultStockService}.</p>
      */
@@ -92,6 +87,12 @@ public class UnifiedStockTestCase  {
      */
     @Autowired
     private SessionFactory sessionFactory;
+
+    @PostConstruct
+    public void init() {
+        postgresHelper = new PostgresqlHelper(ds);
+        db2Helper = new Db2Helper(dsInt);
+    }
 
     /**
      * <p>Retrieves current {@link Session}.</p>
@@ -111,8 +112,6 @@ public class UnifiedStockTestCase  {
     @Before
     public void before() throws SQLException {
         System.out.println("============== before =============== ");
-        PostgresqlHelper.fixSequences( ds);
-        System.out.println("============== fixed sequences =============== ");
     }
 
     /**
@@ -133,8 +132,8 @@ public class UnifiedStockTestCase  {
       /*
        * clean and prepare old and new databases
        */
-      PostgresqlHelper.prepareDatabase(ds, "stocktestcase_2/input_ds.xml");
-      DatabaseHelper.prepareDatabase(dsInt, "stocktestcase_2/input_dsInt.xml");
+      postgresHelper.prepareDatabase("stocktestcase_2/input_ds.xml");
+      db2Helper.prepareDatabase("stocktestcase_2/input_dsInt.xml");
 
       Stock acme = createStock("Acme", "ACM", 123.21D, new Date());
       stockService.save(acme);
@@ -145,7 +144,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the new application database.
        */
-      DatabaseHelper.assertTestData(ds, "stocktestcase_2/expected_result_1.xml", new String[]{"date"});
+      postgresHelper.assertTestData("stocktestcase_2/expected_result_1.xml", new String[]{"date"});
 
       /*
        * execute the integration job.
@@ -155,7 +154,7 @@ public class UnifiedStockTestCase  {
       /*
        * assert the state of the DB2 database after integration.
        */
-      DatabaseHelper.assertTestData(dsInt, "stocktestcase_2/expected_result_2.xml", new String[]{"date"});
+      db2Helper.assertTestData("stocktestcase_2/expected_result_2.xml", new String[]{"date"});
     }
 
 

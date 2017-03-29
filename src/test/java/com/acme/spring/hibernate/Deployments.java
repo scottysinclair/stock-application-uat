@@ -55,9 +55,10 @@ public final class Deployments {
                 .withoutTransitivity().asSingleFile();
 
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "stock-application.war")
-          .addClass(PostgresqlHelper.class)
           .addClass(IntegrationHelper.class)
           .addClass(DatabaseHelper.class)
+          .addClass(PostgresqlHelper.class)
+          .addClass(Db2Helper.class)
           .addAsResource("applicationContext.xml")
           .addAsResource("datasets")
           .addAsLibrary(stockServicesJar)
